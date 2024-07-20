@@ -1,0 +1,218 @@
+Create a new genre.
+Rename an existing genre.
+Reorder existing genres.
+
+To change the order of primary keys, put the keys in the desired
+order in the file genre.xml.
+
+Note that values in short are tuples. The order of the tuples corresponds
+to the order of the keys specified in genre.xml. If I want to change the
+order of the keys, I have to change not only their order in genre.xml, but
+also the order of the values for every entry in the short file. In the long
+file, metadata is a list of (key, value) pairs (see convertdb-2.py). They
+are also in order (by virtue of the keys file, which is used in convertdb-2.py
+to order the values). Because they are in order, there is no reason for the
+long file to contain keys, as is the case of the short file as well.
+
+The keys reside in one place, the genre file. There is a 1:1 correspondence
+between the list of keys in the genre file and the lists of values in both
+the long and the short files.
+
+Renaming a key requires only changing the key in the genre file.
+
+The genre file also specifies the positions in which each key/value should
+appear. The position is used in Select mode, Play mode, and Edit mode.
+Initially, the position specification corresponds to the position of the
+key in the genre file (and the position of the corresponding values in the
+short and long files). The correspondence between the key and the values
+never changes. To change the order in which key/value are presented, change
+the position specification in one place, the genre file.
+
+Another approach to reordering would be to store metadata as key/value
+pairs in both short and long. The desired order of the keys would be
+established by the order of the keys in the genre file. I would always
+iterate over the list of keys in the genre file and then I would use the
+mapping in the short and long files to obtain the corresponding values. In
+this approach, renaming a key requires modifications to genre, short, and
+long files. However, there might be an advantage when demoting metadata to
+nonce. If all metadata are key/value, then demoting a metadatum to nonce
+simply requires deleting its key from genre. Promoting a key to primary
+or secondary simply requires adding the key to genre.
+
+Adding and deleting metadata are different. It is not possible to make a
+change in one place -- to add or delete a key in the genre file -- and
+preserve the correspondence between the key specification in the genre file
+and the value specifications in the short and long files. If I add or
+delete a key from the genre file, I must add or delete the corresponding
+values in the short and long files.
+
+Note that undo gets more complicated when adding or deleting values in the
+short and long files. I need to save the short file and the appropriate long
+file in addition to the genre file.
+
+If I change the name of genre, I also have to change the name of the
+corresponding long file.
+
+Should nonce metadata be stored in a separate shelf -- or at least a separate
+category? I currently have metadata and properties. I could divide metadata
+into primary, secondary, and nonce. Primary, secondary, and properties
+already appear in Config (the first two in Genres). nonce should not appear
+in Config because they are specific to particular recordings. However,
+RecordingTuple could have these keys instead of just metadata and properties.
+The advantage would be easing differentiation of these three subclasses.
+Currently, differentiating primary from secondary requires examining the
+genre specification. Also, primary values have long and short forms while
+secondary have only long. Nonce values are the remainder after removing all
+primary and secondary. If I kept primary and secondary separate, I would not
+have to detect whether the values are tuples with two values or one.
+
+I could put genre.json and the long and short directories in a directory
+called metadata or specifications. To support undo, I would merely create
+a copy of the entire metadata tree rather than creating copies of the
+three individual components.
+
+When I add a key, it is possible that the key is already present in a nonce.
+If so, then the nonce should become either primary or secondary, depending on
+which metadata class I added the key to.
+
+When I add a key, the new key gets added to the appropriate metadata class in
+genre_spec.
+When I add a primary key, then I need to add a
+default short form to every recording in short.
+I add a null value to every recording in long so that values and positions
+maintain the same length. (Play does not display metadata with no value.)
+
+When I add a secondary key, nothing happens to the short file but I still have
+to add a null value to every recording in long.
+
+Note that whenever I add a key, it is possible that
+some recordings might have a matching nonce. When I am adding the default
+short form to every recording, I should be checking first to see whether
+the recording has a matching nonce. If it does, I should derive a short form
+and add it instead of the default value. Likewise, when I am adding the
+null value to every recording in long, I should use the value of the nonce
+if I find one that matches the new key.
+
+I should iterate on the short file. For each recording in the short file, I
+look up the corresponding entry in the long file. If the long file has a
+matching nonce, then I add a short version of its value to the short file.
+Otherwise, I add the default value. For the entry from the long file, I do
+nothing if there is a matching nonce. Otherwise, I add a null entry.
+
+As I am going through the short and long files whenever I add or delete keys,
+I might as well go through them whenever I change the order. I could then
+drop the reordering operation during normal operation. Currently, long has
+keys. Short does not. It would still be nice if keys were specified in one
+place -- the genre file -- so that I do not have to modify two files whenever
+I change the name of a genre. If I remove the keys from long, then the order
+of the values has to match the order of the keys in genre. Currently, primary
+and secondary values are mixed together in long. They could be ordered to
+correspond with the concatenation of the primary and secondary key
+specifications in the genre file. However, the structure would be clearer
+if long had primary and secondary in separate compartments, just as genre
+does. Currently, the nonce metadata is also mixed in with the other metadata.
+The nonce metadata has to have the key, so it makes sense to have a separate
+category for them as well. Thus, instead of metadata, RecordingTuple would
+have primary, secondary, nonce, and properties.
+
+Currently I specify all props in utilities.constants. I should have only the
+system props there. User props could go either in waxrc or their own json
+file. I like the first option better.
+
+How about deleting a key?
+How about moving a key from primary to secondary?
+from secondary to primary?
+
+A different approach would be to have a pool of {key: value} pairs at least in
+long. The genre spec would specify how to handle the pool: how to classify
+them (primary, secondary, nonce), how to order them. Changing either
+classification or order would be accomplished by changing the genre
+specification. There are problems with this approach. First, there is the
+issue that only primary metadata have a short form, so changing the
+classification of a metadatum between primary and secondary would require
+changes other than the genre specification. Second, renaming a key would
+also require changes other than the genre specification. The latter problem
+suggests an organization using an anonymous linkage between information in
+the genre specification and the data in the long file -- a uuid, for
+example. A datum in long would have uuid1 as key. To find out its real
+name and position, one would reference uuid1 in genrespec. But I already
+have an anonymous linkage based on position. The first entry in the genre
+file corresponds with the first entry in the long file (and the short file).
+That correspondance never changes.
+
+I am not sure that I still believe that keeping track of the order in the
+genre file is advantageous. When I make any other change -- adding a key,
+deleting a key, promoting a secondary key, demoting a primary key, snagging
+a nonce key -- I have to modify long and sometimes short. I might as well
+modify long and short to reorder keys instead of reordering on the fly. It
+still makes sense to specify the keys only in the genre file, though, so
+long should not have keys.
+
+Instead of having primary, secondary, and nonce as keys in RecordingTuple,
+I could retain metadata, but make metadata a dict with the keys primary,
+secondary, and nonce. The value associated with each of those keys would
+be a list.
+
+I do not see an advantage to storing the genre specification in a readable
+format. I should store it in a pickle. If I need to read the specification,
+I can write a program to decode the pickle and pretty print the data. A
+readable format is also editable, but I do not foresee any need to edit
+the genre specification.
+
+One of the problems I am encountering with the new data structure concerns
+nonce metadata. It has to be a dict, but since changing the format the
+long primary and secondary metadata is lists. long has become a dict with
+keys primary, secondary, and nonce. The values for the first two keys are
+lists, but the value for nonce is a dict. This inconsistency makes it
+awkward to deal with long. Thus, I find that I am weaving the lists with
+keys and then making dicts. In play mode, I need (key, value) pairs, so
+again I have to weave. I might be able to do the weaving in one place for
+efficiency.
+
+In play, there is no benefit to having primary and secondary in separate
+lists. All metadata values are long. I just go through primary and
+secondary in order.
+
+In edit, there is no benefit to having primary and secondary separate
+because the groups know whether they are primary or secondary. Also, each
+field knows its key, so it is easy to pull the desired value from a dict
+whose key is the key of the field.
+
+Conclusion: I do not want the primary/secondary/nonce categories in the
+data structure. Arguably, I could still store primary and secondary as lists
+and then convert the data to dicts on access (in
+recordingselector.RecordingModel.read_long_metadata). The advantage would
+be that I would not have to edit the data on a change to a key (which
+happens infrequently). The disadvantage is additional complexity on reading
+long data (which happens frequently) and formatting inconsistent with the
+format for nonce metadata.
+
+Another point: if I want to support the reordering of metadata on a per
+recording basis (as I have in wax 1), then I could let the order of the
+metadata in long determine the order of presentation. But in that case,
+the values must be associated with a key.
+
+Column widths: If I store column widths in genre.pickle then it should be
+possible to adjust values in waxconfig. It is also possible to adjust widths
+in wax. It is essential that users be able to adjust widths in wax because
+that is where they can see how well a column is able to accommodate its
+values. If it is possible to adjust widths in two places, then widths become
+the only property that can be adjusted in two places. All other properties of
+genres can be adjusted only in waxconfig. Being able to adjust widths in two
+places opens the possibility of conflicting adjustments if the user runs both
+wax and waxconfig simultaneously. Note that wax also controls 'filter
+configuration' (whether a column is represented by a button). If I store
+width in genre.pickle, I should store filter configuration there as well.
+The alternative to storing these properties in genre.pickle is to store
+them in waxrc. With these properties in waxrc, only wax controls the
+values. The disadvantage is that the values are keyed on genre names, which
+can change by virtue of changes made in waxconfig. I do not want waxconfig
+fiddling with waxrc because then I am back to the same problem of two
+programs competing for control over values in one configuration file.
+However, wax can make necessary adjustments itself when it starts. If a
+genre changed name, it can be treated as a new genre and assigned default
+values. If a genre specification in waxrc no longer corresponds to a
+genre, wax can delete it. Likewise for add and delete. I lose transparency
+on a rename as wax should be able to preserve the values set for the old name.
+
+waxrc: Instead of configparser (waxrc) for column widths and filter configuration, I could store those parameters in binary form in a pickle. If I put two pickles (one for column widths and one for filter configuration) in one file, then I will have to read and write both whenever I make a change to one. Instead, I could put genre_spec, column widths, and filter configuration in shelve. Then I would access the desired parameters by accessing he appropriate key (genre, column_widths, filter_configuration). What I get from configparser looks like a dict, so the code would not change much. If I decide that I need another configuration specification, adding it to the shelve would be transparent to existing code. Shelve has the advantage over configparser of delivering data in the desired types, avoiding the need to convert strings.

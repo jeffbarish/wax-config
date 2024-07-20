@@ -1,0 +1,202 @@
+* {
+    font-size: 13px;
+/*     color: #ccc; */
+/*     background-color: #444854; */
+}
+
+/* Set the theme to Breeze:dark (export GTK_THEME=Breeze:dark). These set
+ * the background color for individual custom widgets to match. */
+/*#recording-view {
+    background-color: #444854;
+}*/
+/*#recording-view:selected {
+    background-color: #3daee9;
+    color: black;
+}*/
+/*#recording-view button {
+    border-width: 0px;
+    border-color: #444854;
+}*/
+/*treeview button:hover {
+    border-color: #5066a6;
+    border-width: 1px;
+}*/
+/*#track-view {
+    background-color: #444854;
+}*/
+/*#track-view:selected {
+    background-color: #3daee9;
+    color: black;
+}*/
+
+/*popover box scale contents trough {
+    background-color: #5066a6;
+}*/
+menuitem:disabled > label {
+    color: dimgrey;
+}
+button {
+    border-width: 1px;
+    padding: 6px;
+    padding-right: 6px;
+}
+#alphabet-scroller-button {
+    min-width: 10px;
+    min-height: 10px;
+    padding: 0px;
+}
+#alphabet-scroller-button > label {
+    font-size: 9px;
+}
+#unicode-kbd-button {
+    min-width: 10px;
+    min-height: 10px;
+    padding: 0px;
+}
+#search-box flowboxchild {
+    padding: 3px;
+}
+#unicode-keyboard flowboxchild {
+    padding: 0px;
+    padding-right: 2px;
+}
+/*button:hover {
+    border-color: #5066a6;
+}*/
+/*treeview {
+    -GtkTreeView-grid-line-width: 0;
+}*/
+
+/* Work metadata editor */
+arrow-button {
+    padding: 0px;
+    padding-right: 6px;
+}
+#arrow-button-track {
+/*     padding: 0px; */
+    padding-right: 2px;
+    padding-left: 3px;
+/*     background-color: #2e2e2e; */
+    margin-bottom: 1px;
+}
+/*work-metadata-entry {
+    padding: 4px;
+    min-height: 0px;
+    background-color: #424242;
+}*/
+
+/* Recording view */
+/*#recordingview-col-label {
+    font-size: 11.3px;
+    padding: 0px;
+}*/
+/*#recordingview-col-button {
+    padding: 3px;
+}*/
+/*button widget box {
+    background-color: #444854;
+    margin: 3px;
+}*/
+#play-button {
+    margin-top: 6px;
+    margin-right: 10px;
+    margin-bottom: 0px;
+    background-color: #262626;
+    border-color: #262626;
+}
+#play-button:hover {
+    border-color: #009185;
+}
+#recordingview-col-button {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+#work-metadata-group {
+    padding-left: 4px;
+    padding-right: 1px;
+    padding-top: 2px;
+}
+#save-button-left {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+/*#save-button-left:hover {
+    border-right-color: #545454;
+}*/
+/* button-left has a right border and button-right has a left border. The
+ * two borders abut. I could give one a width of 0, but then the hover
+ * highlighting for one button is missing one side. */
+#save-button-right {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left-width: 0px;
+}
+/*#save-button-right:hover + #save-button-left {
+    border-left-color: #009185;
+    border-top-color: #009185;
+    border-bottom-color: #009185;
+}*/
+/* the next one works, but the previous one does not. The order of the
+ children matters. */
+/*#save-button-left:hover + #save-button-right {
+    border-right-color: #009185;
+    border-top-color: #009185;
+    border-bottom-color: #009185;
+}*/
+#save-button-right:hover {
+    border-color: #545454;
+}
+#select-button-left {
+    padding: 3px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+#add-tracks-button {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+#select-button-right {
+    padding: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left-width: 0px;
+}
+#select-button-right:hover {
+    border-color: #545454;
+}
+#track-scrolledwindow {
+    border-right-width: 0px;
+    border-top-width: 0px
+}
+/*#play-button {
+    margin: 6px;
+    border: 0px;
+    padding: 0px;
+}
+#play-button-image {
+    background-color: #444854;
+}*/
+/*#edit-notebook tab {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+#edit-notebook entry {
+    border: 0px;
+    background-color: #444854;
+}
+#edit-notebook button {
+    background-color: #31363b;
+}*/
+/*#cover-art-viewer {
+    background-color: #444854;
+    padding: 20px;
+}*/
+/*progressbar trough {
+    border-width: 1px;
+    border-color: #5066a6;
+}*/
+/*#play-queue-view {
+    background-color: red;
+}*/

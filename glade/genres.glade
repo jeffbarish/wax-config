@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.40.0 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkListStore" id="genre_liststore">
+    <columns>
+      <!-- column-name genre -->
+      <column type="gchararray"/>
+    </columns>
+    <signal name="row-deleted" handler="on_genre_liststore_row_deleted" swapped="no"/>
+    <signal name="row-inserted" handler="on_genre_liststore_row_inserted" swapped="no"/>
+  </object>
+  <object class="GtkListStore" id="keys_primary_liststore">
+    <columns>
+      <!-- column-name key -->
+      <column type="gchararray"/>
+      <!-- column-name column -->
+      <column type="gint"/>
+      <!-- column-name filter -->
+      <column type="gboolean"/>
+      <!-- column-name toggle -->
+      <column type="gboolean"/>
+      <!-- column-name sort -->
+      <column type="gboolean"/>
+    </columns>
+    <signal name="row-deleted" handler="on_keys_primary_liststore_row_deleted" swapped="no"/>
+    <signal name="row-inserted" handler="on_keys_primary_liststore_row_inserted" swapped="no"/>
+  </object>
+  <object class="GtkListStore" id="keys_secondary_liststore">
+    <columns>
+      <!-- column-name keys -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <template class="genres_box" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-top">2</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">6</property>
+    <child>
+      <object class="GtkBox" id="genre_box">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">1</property>
+        <child>
+          <object class="GtkBox" id="genre_button_box">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-end">1</property>
+            <property name="spacing">1</property>
+            <child>
+              <object class="GtkLabel" id="genres_label">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="margin-start">3</property>
+                <property name="margin-end">6</property>
+                <property name="label" translatable="yes">Genres</property>
+                <property name="xalign">0</property>
+                <attributes>
+                  <attribute name="style" value="italic"/>
+                </attributes>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="delete_genre_button">
+                <property name="label" translatable="yes">Delete</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_delete_genre_button_clicked" object="genre_treeselection" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="add_genre_button">
+                <property name="label" translatable="yes">Add</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_add_genre_button_clicked" object="genre_liststore" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="pack-type">end</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow" id="genre_scrolledwindow">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="vexpand">True</property>
+            <property name="shadow-type">etched-in</property>
+            <signal name="size-allocate" handler="on_genre_scrolledwindow_size_allocate" swapped="no"/>
+            <child>
+              <object class="GtkTreeView" id="genre_treeview">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="margin-top">3</property>
+                <property name="margin-bottom">3</property>
+                <property name="model">genre_liststore</property>
+                <property name="headers-visible">False</property>
+                <property name="headers-clickable">False</property>
+                <property name="reorderable">True</property>
+                <property name="enable-search">False</property>
+                <property name="search-column">0</property>
+                <property name="show-expanders">False</property>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection" id="genre_treeselection">
+                    <signal name="changed" handler="on_genre_treeselection_changed" swapped="no"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="name_treeviewcolumn">
+                    <property name="sizing">autosize</property>
+                    <property name="title" translatable="yes">Genres:</property>
+                    <property name="reorderable">True</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="name_cellrenderertext">
+                        <property name="xpad">3</property>
+                        <property name="editable">True</property>
+                        <signal name="edited" handler="on_name_cellrenderertext_edited" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkBox" id="keys_box">
+        <property name="can-focus">False</property>
+        <property name="margin-start">3</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">1</property>
+        <signal name="size-allocate" handler="on_keys_box_size_allocate" swapped="no"/>
+        <child>
+          <object class="GtkBox" id="keys_primary_box">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkBox" id="keys_primary_buttons_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="spacing">1</property>
+                <child>
+                  <object class="GtkLabel" id="keys_primary_label">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-end">9</property>
+                    <property name="label" translatable="yes">Primary keys</property>
+                    <property name="xalign">0</property>
+                    <attributes>
+                      <attribute name="style" value="italic"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="add_key_primary_button">
+                    <property name="label" translatable="yes">Add</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_add_key_button_clicked" object="keys_primary_treeview" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="delete_key_primary_button">
+                    <property name="label" translatable="yes">Delete</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_delete_key_button_clicked" object="keys_primary_treeview" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTreeView" id="keys_primary_treeview">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="margin-top">3</property>
+                <property name="margin-bottom">3</property>
+                <property name="model">keys_primary_liststore</property>
+                <property name="headers-clickable">False</property>
+                <property name="reorderable">True</property>
+                <property name="enable-search">False</property>
+                <property name="search-column">0</property>
+                <property name="show-expanders">False</property>
+                <signal name="drag-data-get" handler="on_keys_treeview_drag_data_get" swapped="no"/>
+                <signal name="drag-data-received" handler="on_keys_primary_treeview_drag_data_received" swapped="no"/>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection" id="keys_primary_treeselection">
+                    <signal name="changed" handler="on_keys_treeselection_changed" swapped="no"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="keys_primary_treeviewcolumn">
+                    <property name="expand">True</property>
+                    <property name="reorderable">True</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="keys_primary_cellrenderertext">
+                        <property name="xpad">3</property>
+                        <property name="editable">True</property>
+                        <signal name="edited" handler="on_keys_cellrenderertext_edited" object="keys_primary_liststore" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="column_width_column">
+                    <property name="min-width">70</property>
+                    <property name="title" translatable="yes">width</property>
+                    <property name="alignment">0.5</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="column_width_cellrenderertext">
+                        <property name="xalign">1</property>
+                        <property name="editable">True</property>
+                        <signal name="edited" handler="on_column_width_cellrenderertext_edited" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="text">1</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="filter_button_column">
+                    <property name="min-width">70</property>
+                    <property name="title" translatable="yes">button</property>
+                    <property name="alignment">0.5</property>
+                    <child>
+                      <object class="GtkCellRendererToggle" id="filter_button_cellrenderertoggle">
+                        <signal name="toggled" handler="on_filter_button_cellrenderertoggle_toggled" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="sensitive">3</attribute>
+                        <attribute name="active">2</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="sort_indicator_column">
+                    <property name="title" translatable="yes">sort</property>
+                    <child>
+                      <object class="GtkCellRendererToggle" id="sort_indicator_cellrenderertoggle">
+                        <signal name="toggled" handler="on_sort_indicator_cellrenderertoggle_toggled" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="active">4</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="keys_secondary_box">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkBox" id="keys_secondary_buttons_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="spacing">1</property>
+                <child>
+                  <object class="GtkLabel" id="keys_secondary_label">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-end">9</property>
+                    <property name="label" translatable="yes">Secondary keys</property>
+                    <property name="xalign">0</property>
+                    <attributes>
+                      <attribute name="style" value="italic"/>
+                    </attributes>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="add_key_secondary_button">
+                    <property name="label" translatable="yes">Add</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_add_key_button_clicked" object="keys_secondary_treeview" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkButton" id="delete_key_secondary_button">
+                    <property name="label" translatable="yes">Delete</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="receives-default">True</property>
+                    <signal name="clicked" handler="on_delete_key_button_clicked" object="keys_secondary_treeview" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkTreeView" id="keys_secondary_treeview">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="margin-top">3</property>
+                <property name="margin-bottom">3</property>
+                <property name="model">keys_secondary_liststore</property>
+                <property name="headers-visible">False</property>
+                <property name="headers-clickable">False</property>
+                <property name="reorderable">True</property>
+                <property name="enable-search">False</property>
+                <property name="search-column">0</property>
+                <property name="show-expanders">False</property>
+                <signal name="drag-data-get" handler="on_keys_treeview_drag_data_get" swapped="no"/>
+                <signal name="drag-data-received" handler="on_keys_secondary_treeview_drag_data_received" swapped="no"/>
+                <child internal-child="selection">
+                  <object class="GtkTreeSelection" id="keys_secondary_treeselection">
+                    <signal name="changed" handler="on_keys_treeselection_changed" swapped="no"/>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkTreeViewColumn" id="keys_secondary_treeviewcolumn">
+                    <property name="title" translatable="yes">Keys:</property>
+                    <property name="reorderable">True</property>
+                    <child>
+                      <object class="GtkCellRendererText" id="keys_secondary_cellrenderertext">
+                        <property name="xpad">3</property>
+                        <property name="editable">True</property>
+                        <signal name="edited" handler="on_keys_cellrenderertext_edited" object="keys_secondary_liststore" swapped="no"/>
+                      </object>
+                      <attributes>
+                        <attribute name="text">0</attribute>
+                      </attributes>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </template>
+  <object class="GtkSizeGroup" id="buttons_sizegroup">
+    <widgets>
+      <widget name="add_genre_button"/>
+      <widget name="delete_genre_button"/>
+      <widget name="add_key_primary_button"/>
+      <widget name="delete_key_primary_button"/>
+      <widget name="add_key_secondary_button"/>
+      <widget name="delete_key_secondary_button"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup" id="keys_labels_sizegroup">
+    <widgets>
+      <widget name="keys_primary_label"/>
+      <widget name="keys_secondary_label"/>
+    </widgets>
+  </object>
+</interface>

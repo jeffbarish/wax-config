@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.20"/>
+  <object class="GtkListStore" id="properties_liststore">
+    <columns>
+      <!-- column-name property_name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <template class="properties_box" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-top">2</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">1</property>
+    <child>
+      <object class="GtkBox" id="properties_button_box">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-end">1</property>
+        <property name="spacing">1</property>
+        <child>
+          <object class="GtkLabel" id="properties_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">3</property>
+            <property name="margin-end">6</property>
+            <property name="label" translatable="yes">User Properties</property>
+            <property name="xalign">0</property>
+            <attributes>
+              <attribute name="style" value="italic"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="delete_property_button">
+            <property name="label" translatable="yes">Delete</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="on_delete_property_button_clicked" object="properties_treeselection" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack-type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="add_property_button">
+            <property name="label" translatable="yes">Add</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="on_add_property_button_clicked" object="properties_liststore" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack-type">end</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow" id="properties_scrolledwindow">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="vexpand">True</property>
+        <property name="shadow-type">etched-in</property>
+        <child>
+          <object class="GtkTreeView" id="properties_treeview">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="margin-top">3</property>
+            <property name="margin-bottom">3</property>
+            <property name="model">properties_liststore</property>
+            <property name="headers-visible">False</property>
+            <property name="headers-clickable">False</property>
+            <property name="reorderable">True</property>
+            <property name="enable-search">False</property>
+            <property name="search-column">0</property>
+            <property name="show-expanders">False</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="properties_treeselection">
+                <signal name="changed" handler="on_properties_treeselection_changed" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="name_treeviewcolumn">
+                <property name="sizing">autosize</property>
+                <property name="title" translatable="yes">Properties:</property>
+                <property name="reorderable">True</property>
+                <child>
+                  <object class="GtkCellRendererText" id="name_cellrenderertext">
+                    <property name="xpad">3</property>
+                    <property name="editable">True</property>
+                    <signal name="edited" handler="on_name_cellrenderertext_edited" object="properties_liststore" swapped="no"/>
+                  </object>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </template>
+  <object class="GtkSizeGroup" id="buttons_sizegroup">
+    <widgets>
+      <widget name="add_property_button"/>
+      <widget name="delete_property_button"/>
+    </widgets>
+  </object>
+</interface>

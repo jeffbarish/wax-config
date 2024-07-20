@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkListStore" id="completers_liststore">
+    <columns>
+      <!-- column-name key -->
+      <column type="gchararray"/>
+      <!-- column-name enabled -->
+      <column type="gboolean"/>
+      <!-- column-name learn -->
+      <column type="gboolean"/>
+      <!-- column-name n_names -->
+      <column type="gint"/>
+    </columns>
+  </object>
+  <template class="completers_box" parent="GtkBox">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="margin-top">2</property>
+    <property name="orientation">vertical</property>
+    <property name="spacing">1</property>
+    <child>
+      <object class="GtkBox" id="completers_button_box">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="margin-end">1</property>
+        <property name="spacing">1</property>
+        <child>
+          <object class="GtkLabel" id="completers_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="margin-start">3</property>
+            <property name="margin-end">6</property>
+            <property name="label" translatable="yes">Completers</property>
+            <property name="xalign">0</property>
+            <attributes>
+              <attribute name="style" value="italic"/>
+            </attributes>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="delete_completer_button">
+            <property name="label" translatable="yes">Delete</property>
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="can-focus">False</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="on_delete_completer_button_clicked" object="completers_treeselection" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack-type">end</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="edit_completer_button">
+            <property name="label" translatable="yes">Edit</property>
+            <property name="visible">True</property>
+            <property name="sensitive">False</property>
+            <property name="can-focus">False</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="on_edit_completer_button_clicked" object="completers_treeselection" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack-type">end</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="add_completer_button">
+            <property name="label" translatable="yes">Add</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="receives-default">True</property>
+            <signal name="clicked" handler="on_add_completer_button_clicked" object="completers_liststore" swapped="no"/>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack-type">end</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkScrolledWindow" id="completers_scrolledwindow">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="vexpand">True</property>
+        <property name="hscrollbar-policy">never</property>
+        <property name="shadow-type">etched-in</property>
+        <child>
+          <object class="GtkTreeView" id="completers_treeview">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="margin-start">3</property>
+            <property name="model">completers_liststore</property>
+            <property name="headers-clickable">False</property>
+            <property name="reorderable">True</property>
+            <property name="enable-search">False</property>
+            <property name="search-column">0</property>
+            <property name="show-expanders">False</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection" id="completers_treeselection">
+                <signal name="changed" handler="on_completers_treeselection_changed" swapped="no"/>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="key_treeviewcolumn">
+                <property name="min-width">140</property>
+                <property name="title" translatable="yes">key</property>
+                <property name="expand">True</property>
+                <property name="alignment">0.5</property>
+                <child>
+                  <object class="GtkCellRendererText" id="key_cellrenderertext">
+                    <property name="editable">True</property>
+                    <signal name="edited" handler="on_key_cellrenderertext_edited" object="completers_liststore" swapped="no"/>
+                  </object>
+                  <attributes>
+                    <attribute name="text">0</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="enabled_treeviewcolumn">
+                <property name="min-width">70</property>
+                <property name="title" translatable="yes">enabled</property>
+                <property name="alignment">0.5</property>
+                <child>
+                  <object class="GtkCellRendererToggle" id="enabled_cellrenderertoggle">
+                    <signal name="toggled" handler="on_enabled_cellrenderertoggle_toggled" swapped="no"/>
+                  </object>
+                  <attributes>
+                    <attribute name="active">1</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="learn_treeviewcolumn">
+                <property name="min-width">70</property>
+                <property name="title" translatable="yes">learn</property>
+                <property name="alignment">0.5</property>
+                <child>
+                  <object class="GtkCellRendererToggle" id="learn_cellrenderertoggle">
+                    <signal name="toggled" handler="on_learn_cellrenderertoggle_toggled" swapped="no"/>
+                  </object>
+                  <attributes>
+                    <attribute name="active">2</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+            <child>
+              <object class="GtkTreeViewColumn" id="n_names_treeviewcolumn">
+                <property name="min-width">90</property>
+                <property name="title"># names</property>
+                <property name="alignment">0.5</property>
+                <child>
+                  <object class="GtkCellRendererText" id="n_names_cellrenderertext">
+                    <property name="xalign">1</property>
+                  </object>
+                  <attributes>
+                    <attribute name="text">3</attribute>
+                  </attributes>
+                </child>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="fill">True</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </template>
+  <object class="GtkSizeGroup" id="buttons_sizegroup">
+    <widgets>
+      <widget name="delete_completer_button"/>
+      <widget name="edit_completer_button"/>
+      <widget name="add_completer_button"/>
+    </widgets>
+  </object>
+</interface>
