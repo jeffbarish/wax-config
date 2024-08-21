@@ -100,10 +100,11 @@ class InfoBox(Gtk.Box):
         with shelve.open(LONG, 'r') as recording_shelf:
             for recording in recording_shelf.values():
                 n_recs += 1
+                props_d = dict(recording.props)
+                date_created = props_d['date created'][0]
                 for work in recording.works.values():
-                    props_d = dict(recording.props)
+                    props_d = dict(work.props)
                     date_played = props_d['date played'][0]
-                    date_created = props_d['date created'][0]
                     times_played = props_d['times played'][0]
 
                     metadata = work.metadata
@@ -111,7 +112,8 @@ class InfoBox(Gtk.Box):
                     description = '\n'.join(', '.join(name_group)
                             for key, name_group in zip(keys, metadata))
 
-                    row = (date_played, date_created, times_played, work.genre, description)
+                    row = (date_played, date_created, times_played,
+                            work.genre, description)
                     props_list.append(row)
         self.total_recs_label.set_text(f'(from {n_recs} recordings)')
 

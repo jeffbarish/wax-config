@@ -11,8 +11,8 @@ DOCUMENTS = Path(DATABASE, 'documents')
 IMAGES = Path(DATABASE, 'images')
 SOUND = Path(DATABASE, 'sound')
 
-AUTO_PROPS_1 = ('times played', 'date created', 'date played')
-AUTO_PROPS_2 = ('codec', 'bit rate', 'sample rate', 'resolution', 'source')
+PROPS_REC = ['source', 'codec', 'sample rate', 'resolution', 'date created']
+PROPS_WRK = ['times played', 'date played']
 
 NOEXPAND = (False, False, 0)
 

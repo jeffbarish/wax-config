@@ -135,13 +135,14 @@ class PropertiesBox(Gtk.Box):
         with shelve.open(LONG, 'r') as recording_shelf, \
                 shelve.open(TMP, 'n') as tmp_shelf:
             for uuid, recording in recording_shelf.items():
-                props_dict = dict(recording.props)
-                if add_prop in props_dict: # should not happen
-                    tmp_shelf[uuid] = recording
-                    continue
-                props_dict[add_prop] = ('',)
-                new_props = list(props_dict.items())
-                tmp_shelf[uuid] = recording._replace(props=new_props)
+                new_works = {}
+                for i, work in recording.works.items():
+                    props_dict = dict(work.props)
+                    if add_prop not in props_dict:  # should happen always
+                        props_dict[add_prop] = ('',)
+                    new_props = list(props_dict.items())
+                    new_works[i] = work._replace(props=new_props)
+                tmp_shelf[uuid] = recording._replace(works=new_works)
         Path(TMP).rename(LONG)
 
     def delete_property_in_long(self, del_prop):
@@ -149,13 +150,16 @@ class PropertiesBox(Gtk.Box):
         with shelve.open(LONG, 'c') as recording_shelf, \
                 shelve.open(TMP, 'n') as tmp_shelf:
             for uuid, recording in recording_shelf.items():
-                props_dict = dict(recording.props)
-                try:
-                    del props_dict[del_prop]
-                except KeyError:
-                    continue
-                new_props = list(props_dict.items())
-                tmp_shelf[uuid] = recording._replace(props=new_props)
+                new_works = {}
+                for i, work in recording.works.items():
+                    props_dict = dict(work.props)
+                    try:
+                        del props_dict[del_prop]
+                    except KeyError:
+                        pass
+                    new_props = list(props_dict.items())
+                    new_works[i] = work._replace(props=new_props)
+                tmp_shelf[uuid] = recording._replace(works=new_works)
         Path(TMP).rename(LONG)
 
     def rename_property_in_long(self, old_prop, new_prop):
@@ -163,11 +167,13 @@ class PropertiesBox(Gtk.Box):
         with shelve.open(LONG, 'r') as recording_shelf, \
                 shelve.open(TMP, 'n') as tmp_shelf:
             for uuid, recording in recording_shelf.items():
-                props_dict = dict(recording.props)
-                props_dict[new_prop] = props_dict[old_prop]
-                del props_dict[old_prop]
-                new_props = list(props_dict.items())
-                tmp_shelf[uuid] = recording._replace(props=new_props)
+                new_works = {}
+                for i, work in recording.works.items():
+                    props_dict = dict(work.props)
+                    props_dict[new_prop] = props_dict.pop(old_prop, ('',))
+                    new_props = list(props_dict.items())
+                    new_works[i] = work._replace(props=new_props)
+                tmp_shelf[uuid] = recording._replace(works=new_works)
         Path(TMP).rename(LONG)
 
     def _push_checkpoint(self, *args):
